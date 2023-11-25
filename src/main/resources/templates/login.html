@@ -11,11 +11,11 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     
-    <script type="text/javascript" src="./assets/js/script.js" async></script> 
+    <script type="text/javascript" src="./js/script.js" async></script> 
 
-    <link rel="shortcut icon" href="./assets/image/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
 
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
@@ -63,14 +63,14 @@
     <header class="container">
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" id="menu">
             <div class="container-fluid">
-                <a href="./Index.jsp" class="navbar-brand fs-2"> <img src="./assets/image/voo-de-aviao.png" width="50" height="50" alt=""> Recode Viagens</a>
+                <a th:href="@{/}" class="navbar-brand fs-2"> <img src="./image/voo-de-aviao.png" width="50" height="50" alt=""> Recode Viagens</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse flex-row-reverse" id="navbarContent">
                     <ul class="navbar-nav d-flex align-items-center">
                         <li class="nav-item">
-                            <a href="./Index.jsp" class="nav-link"> <i class="fas fa-home"></i> Página Principal</a>
+                            <a th:href="@{/}" class="nav-link"> <i class="fas fa-home"></i> Página Principal</a>
                         </li>
                         <li class="nav-item">
                             <a href="Destinos" class="nav-link"> <i class="fas fa-map-marked-alt"></i> Destino</a>
@@ -79,13 +79,13 @@
                             <a href="Promocoes" class="nav-link"> <i class="fas fa-tags"></i> Promoções</a>
                         </li>
                         <li class="nav-item">
-                            <a href="./views/Contato.jsp" class="nav-link"><i class="fas fa-phone"></i> Contato</a>
+                            <a th:href="@{/contato}" class="nav-link"><i class="fas fa-phone"></i> Contato</a>
                         </li>
                         <li class="nav-item">
-                            <a href="Cadastro" class="nav-link"><i class="fas fa-user-edit"></i> Cadastro</a>
+                            <a th:href="@{/cadastro}" class="nav-link"><i class="fas fa-user-edit"></i> Cadastro</a>
                         </li>
                         <li class="nav-item">
-                            <a href="login.html" class="nav-link active"><i class="fas fa-sign-in-alt"></i> Login</a>
+                            <a th:href="@{/login}" class="nav-link active"><i class="fas fa-sign-in-alt"></i> Login</a>
                         </li>
                     </ul>
                 </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
           
-                          <img src="./assets/image/travelers-2.jpg"
+                          <img src="./image/travelers-2.jpg"
                             class="img-fluid" alt="Viajantes 2">
           
                         </div>
@@ -192,7 +192,7 @@
                 <div class="col">
                     <h5>Formas de Pagamento</h5>
                     <span class="bg-image">
-                        <img src="./assets/image/payment-method.jpg" alt="Métodos de Pagamento" style="width: 300px; height: 100px;">
+                        <img src="./image/payment-method.jpg" alt="Métodos de Pagamento" style="width: 300px; height: 100px;">
                     </span>
                 </div>
             </div>
