@@ -19,12 +19,12 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-<link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="./css/style.css">
 
-<link rel="stylesheet" href="./assets/css/estiloDestinos.css">
+<link rel="stylesheet" href="./css/estiloDestinos.css">
 
 
-<link rel="shortcut icon" href="./assets/image/favicon.ico"
+<link rel="shortcut icon" href="./image/favicon.ico"
 	type="image/x-icon">
 
 
@@ -39,15 +39,15 @@
 			<div class="container-fluid">
 				<jstl:choose>
 					<jstl:when test="${empty sessionScope.clienteID}">
-						<a href="./Index.jsp" class="navbar-brand fs-2"> <img
-							src="./assets/image/voo-de-aviao.png" width="50" height="50"
+						<a th:href="@{/}" class="navbar-brand fs-2"> <img
+							src="./image/voo-de-aviao.png" width="50" height="50"
 							alt=""> Recode Viagens
 						</a>
 
 					</jstl:when>
 					<jstl:otherwise>
 						<a href="./views/IndexLogado.jsp" class="navbar-brand fs-2"> <img
-							src="./assets/image/voo-de-aviao.png" width="50" height="50"
+							src="./image/voo-de-aviao.png" width="50" height="50"
 							alt=""> Recode Viagens
 						</a>
 					</jstl:otherwise>
@@ -63,7 +63,7 @@
 					<ul class="navbar-nav d-flex align-items-center">
 						<jstl:choose>
 							<jstl:when test="${empty sessionScope.clienteID}">
-								<li class="nav-item"><a href="./Index.jsp" class="nav-link">
+								<li class="nav-item"><a th:href="@{/}" class="nav-link">
 										<i class="fas fa-home"></i> Página Principal
 								</a></li>
 
@@ -75,10 +75,10 @@
 								</a></li>
 							</jstl:otherwise>
 						</jstl:choose>
-						<li class="nav-item"><a href="Destinos" class="nav-link">
+						<li class="nav-item"><a th:href="@{/destinos}" class="nav-link">
 								<i class="fas fa-map-marked-alt"></i> Destino
 						</a></li>
-						<li class="nav-item"><a href="Promocoes"
+						<li class="nav-item"><a href="#"
 							class="nav-link active"> <i class="fas fa-tags"></i>
 								Promoções
 						</a></li>
@@ -87,10 +87,10 @@
 								class="fas fa-phone"></i> Contato</a></li>
 						<jstl:choose>
 							<jstl:when test="${empty sessionScope.clienteID}">
-								<li class="nav-item"><a href="./cadastro.html"
+								<li class="nav-item"><a th:href="@{/cadastro}"
 									class="nav-link"><i class="fas fa-user-edit"></i> Cadastro</a>
 								</li>
-								<li class="nav-item"><a href="./login.html"
+								<li class="nav-item"><a th:href="@{/login}"
 									class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
 							</jstl:when>
 							<jstl:otherwise>
@@ -125,7 +125,7 @@
 	<!-- Área Principal -->
 	<main class="container-fluid">
 		<section class="container">
-			<form class="input-group" action="/Agencia-Viagem-V2/Pesquisar" method="post">
+			<form class="input-group" action="/pesquisa" method="post">
 				<input type="text" class="form-control my-4"
 					placeholder="Pesquisar Destinos" name="pesquisaDestino"
 					aria-label="Pesquisar Destinos" aria-describedby="search-addon" />
@@ -135,21 +135,19 @@
 			<h2 class="text-primary">Viagens Internacionais</h2>
 
 			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<jstl:forEach items="${viagensInternacionais}" var="viagem">
-					<div class="card">
-						<img src="${viagem.imagem}" class="card-img-top img-fluid" alt="">
+					<div class="card" th:each="viagem : ${viagensInterProm}">
+						<img th:src="@{${viagem.imagem}}" class="card-img-top img-fluid" alt="">
 						<div
-							class="card-tag position-absolute top-0 start-50 translate-middle text-white py-1 px-3 fw-semibold rounded text-center shadow">${viagem.label_promocao}</div>
+							class="card-tag position-absolute top-0 start-50 translate-middle text-white py-1 px-3 fw-semibold rounded text-center shadow" th:text="${viagem.label_promocao}"></div>
 						<div class="card-body text-center ">
-							<h5 class="card-title text-success py-1">${viagem.destino}-
-								${viagem.localidade}</h5>
-							<p class="card-text">${viagem.descricaoCurta}</p>
-							<a href="DetalhesPromocao?id=${viagem.id}"
+							<h5 class="card-title text-success py-1"><span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span></h5>
+							<p class="card-text" th:text="${viagem.descricao_curta}"></p>
+							<a th:href="@{/detalhePromocao(id=${viagem.id})}"
 								class="btn btn-warning px-4 fw-semibold btnPromocao">Conferir
 								Pacote</a>
 						</div>
 					</div>
-				</jstl:forEach>
+				</th:each>
 			</div>
 
 
@@ -161,21 +159,19 @@
 				Viagens <span class="text-warning">Nacionais</span>
 			</h2>
 			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<jstl:forEach items="${viagensNacionais}" var="viagem">
-					<div class="card">
-						<img src="${viagem.imagem}" class="card-img-top img-fluid" alt="">
+					<div class="card" th:each="viagem : ${viagensNacProm}">
+						<img th:src="@{${viagem.imagem}}" class="card-img-top img-fluid" alt="">
 						<div
-							class="card-tag position-absolute top-0 start-50 translate-middle text-white py-1 px-3 fw-semibold rounded text-center shadow">${viagem.label_promocao}</div>
+							class="card-tag position-absolute top-0 start-50 translate-middle text-white py-1 px-3 fw-semibold rounded text-center shadow" th:text="${viagem.label_promocao}"></div>
 						<div class="card-body text-center ">
-							<h5 class="card-title text-success py-1">${viagem.destino}-
-								${viagem.localidade}</h5>
-							<p class="card-text">${viagem.descricaoCurta}</p>
-							<a href="DetalhesPromocao?id=${viagem.id}"
+							<h5 class="card-title text-success py-1"><span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span></h5>
+							<p class="card-text" th:text="${viagem.descricao_curta}"></p>
+							<a th:href="@{/detalhePromocao(id=${viagem.id})}"
 								class="btn btn-warning px-4 fw-semibold btnPromocao">Conferir
 								Pacote</a>
 						</div>
 					</div>
-				</jstl:forEach>
+				</th:each>
 			</div>
 		</section>
 	</main>

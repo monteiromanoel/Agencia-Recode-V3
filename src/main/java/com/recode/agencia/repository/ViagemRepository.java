@@ -9,6 +9,8 @@ import com.recode.agencia.model.Viagem;
 
 @Repository
 public interface ViagemRepository extends JpaRepository<Viagem, Long> {
-	List<Viagem> findByTipo_pacote(String tipo_pacote);
+	List<Viagem> findByTipo(String tipo);
+	
+	List<Viagem>findByDestinoContaining(String destino);
 
 }

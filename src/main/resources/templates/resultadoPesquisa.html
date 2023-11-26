@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Recode Viagens - Destino</title>
+	<title>Recode Viagens - Pesquisa</title>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -18,6 +18,9 @@
 	<link rel="stylesheet" href="./css/style.css">
 
 	<link rel="stylesheet" href="./css/estiloDestinos.css">
+
+
+	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
 
 	<script>
 		function exibirResultadoPesquisa() {
@@ -34,21 +37,17 @@
 				var dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
 				element.textContent = dataFormatada;
 			});
-			
+
 			var precos = document.getElementsByClassName("valorPacote");
-	        var precosFormatados = document.getElementsByClassName('precoMoeda');
-	
-	        for (var i = 0; i < precos.length; i++) {
-	            var preco = precos[i].innerText.trim();
-	            var precoFormatado = parseFloat(preco).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-	            precosFormatados[i].textContent = precoFormatado;
-	        }
+			var precosFormatados = document.getElementsByClassName('precoMoeda');
+
+			for (var i = 0; i < precos.length; i++) {
+				var preco = precos[i].innerText.trim();
+				var precoFormatado = parseFloat(preco).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+				precosFormatados[i].textContent = precoFormatado;
+			}
 		});
 	</script>
-
-
-	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
-
 </head>
 
 <body>
@@ -90,7 +89,7 @@
 									</a></li>
 							</jstl:otherwise>
 						</jstl:choose>
-						<li class="nav-item"><a href="#" class="nav-link active"> <i
+						<li class="nav-item"><a th:href="@{/destinos}" class="nav-link active"> <i
 									class="fas fa-map-marked-alt"></i>
 								Destino
 							</a></li>
@@ -127,9 +126,11 @@
 		<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
 			<div class="d-flex justify-content-center align-items-center h-100 w-100">
 				<div class="text-white">
-					<h1 class="mb-3">As Melhores Localizações</h1>
-					<h4 class="mb-3">Visite os melhores locais com os melhores
-						preços, nacional ou internacional!</h4>
+					<div class="text-white">
+						<h1 class="mb-3">As Melhores Localizações</h1>
+						<h4 class="mb-3">Visite os melhores locais com os melhores
+							preços, nacional ou internacional!</h4>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -138,89 +139,62 @@
 	<!-- Área Principal -->
 	<main class="container-fluid">
 		<section class="container">
-
 			<form class="input-group" action="/pesquisa" method="post">
-				<input type="text" class="form-control my-4" placeholder="Pesquisar Destinos" name="pesquisaDestino"
+				<input type="search" class="form-control my-4" placeholder="Pesquisar Destinos" name="pesquisaDestino"
 					aria-label="Pesquisar Destinos" aria-describedby="search-addon" />
 				<button type="submit" class="btn btn-primary my-4">Pesquisar</button>
 			</form>
 
-			<h2 class="text-primary">Viagens Internacionais</h2>
-			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<div class="card" th:each="viagem : ${viagensInterConv}">
-
-					<div class="card-header bg-success">
-						<h5 class="card-title text-white text-center pt-2">
-							<i class="fas fa-plane"></i>
-							<span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
-						</h5>
-					</div>
-					<div class="card-body text-center">
-						<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
-							alt="">
-						<p class="card-text mt-1">
-							<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
-								title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
-							<span class="dataConvert" th:text="${viagem.data_volta}"></span>
-
-						</p>
-						<p class="card-text">
-							<span class="text-secondary fs-3">10x</span> <span class="text-primary fs-2">
-								<span th:text="${viagem.preco/10}" class="valorPacote" style="display: none;"></span>
-							<span class="precoMoeda"></span>
-							</span>
-						</p>
-						<a th:href="@{/detalheDestino(id=${viagem.id})}"
-							class="btn btn-warning px-5 fw-semibold btnPromocao">Ver
-							Pacote <i class="fas fa-arrow-right"></i>
-						</a>
-					</div>
+			<div th:if="${#lists.isEmpty(resultados)}">
+				<h2 class="text-primary text-center">Destino não encontrado</h2>
+				<div class="d-flex justify-content-center">
+					<a href="Destinos" class="btn btn-primary btn-lg text-center">Voltar</a>
 				</div>
-				</th:each>
 			</div>
 
+			<div th:unless="${#lists.isEmpty(resultados)}">
+				<h2 class="text-primary">Resultado da Pesquisa</h2>
+				<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
+					<div th:each="viagem : ${resultados}" class="card">
+						<div class="card-header bg-success">
+							<h5 class="card-title text-white text-center">
+								<i class="fas fa-plane pt-2"></i> <span
+									th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
+							</h5>
+						</div>
+						<div class="card-body text-center">
+							<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
+								alt="">
+							<p class="card-text mt-1">
+								<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
+									title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
+								<span class="dataConvert" th:text="${viagem.data_volta}"></span>
+							</p>
+							<p class="card-text">
+								<span class="text-secondary fs-6">Tipo do Pacote</span> <br>
+								<span th:text="${viagem.tipo}"
+									th:class="${viagem.tipo eq 'promocional'} ? 'bg-promocional' : 'bg-convencional' + ' fs-5 text-white px-1 rounded shadow-sm'"></span>
+							</p>
+							<p class="card-text">
+								<span class="text-muted fs-4">Em até </span><span class="text-primary fs-3"> 10x </span>
+								<span class="text-muted fs-4">sem juros! </span>
+							</p>
+							<a th:if="${viagem.tipo == 'promocional'}" th:href="@{/detalhePromocao(id=${viagem.id})}"
+								class="btn btn-warning px-5 fw-semibold btnPromocao">
+								Ver Pacote <i class="fas fa-arrow-right"></i>
+							</a>
 
-		</section>
-
-		<hr class="my-5">
-		<section class="container mt-3">
-			<h2 class="text-success">
-				Viagens <span class="text-warning">Nacionais</span>
-			</h2>
-			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<div class="card" th:each="viagem : ${viagensNacConv}">
-
-					<div class="card-header bg-success">
-						<h5 class="card-title text-white text-center pt-2">
-							<i class="fas fa-plane"></i>
-							<span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
-						</h5>
-					</div>
-					<div class="card-body text-center">
-						<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
-							alt="">
-						<p class="card-text mt-1">
-							<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
-								title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
-							<span class="dataConvert" th:text="${viagem.data_volta}"></span>
-
-						</p>
-						<p class="card-text">
-							<span class="text-secondary fs-3">10x</span> <span class="text-primary fs-2">
-								<span th:text="${viagem.preco/10}" class="valorPacote" style="display: none;"></span>
-							<span class="precoMoeda"></span>
-							</span>
-						</p>
-						<a th:href="@{/detalheDestino(id=${viagem.id})}"
-							class="btn btn-warning px-5 fw-semibold btnPromocao">Ver
-							Pacote <i class="fas fa-arrow-right"></i>
-						</a>
+							<a th:if="${viagem.tipo == 'convencional'}"
+								th:href="@{/detalheDestino(id=${viagem.id})}"
+								class="btn btn-warning px-5 fw-semibold btnPromocao">
+								Ver Pacote <i class="fas fa-arrow-right"></i>
+							</a>
+						</div>
 					</div>
 				</div>
-				</th:each>
-			</div>
 		</section>
 	</main>
+
 
 	<!-- Newsletter -->
 	<section class="container p-4 mt-2">
