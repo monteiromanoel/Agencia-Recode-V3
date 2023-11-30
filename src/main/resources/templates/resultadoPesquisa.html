@@ -173,7 +173,7 @@
 							<p class="card-text">
 								<span class="text-secondary fs-6">Tipo do Pacote</span> <br>
 								<span th:text="${viagem.tipo}"
-									th:class="${viagem.tipo eq 'promocional'} ? 'bg-promocional' : 'bg-convencional' + ' fs-5 text-white px-1 rounded shadow-sm'"></span>
+											th:class="${viagem.tipo eq 'promocional'} ? 'bg-promocional' + ' fs-5 text-white px-2 rounded shadow-sm' : 'bg-convencional' + ' fs-5 text-white px-2 rounded shadow-sm'"></span>
 							</p>
 							<p class="card-text">
 								<span class="text-muted fs-4">Em até </span><span class="text-primary fs-3"> 10x </span>

@@ -7,5 +7,5 @@ import com.recode.agencia.model.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
-
+	
 }

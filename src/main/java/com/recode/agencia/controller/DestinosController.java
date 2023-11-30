@@ -26,12 +26,10 @@ public class DestinosController {
 	public String destinosConvencionais(Model model) {
 		List<Viagem> todasViagens = viagemService.buscarTodasViagens();
 	    
-	    // Filtrar viagens convencionais nacionais (localidade = Brasil)
 	    List<Viagem> viagensNacionaisConvencionais = todasViagens.stream()
 	            .filter(viagem -> "convencional".equals(viagem.getTipo()) && "Brasil".equals(viagem.getLocalidade()))
 	            .collect(Collectors.toList());
 
-	    // Filtrar viagens convencionais internacionais (localidade != Brasil)
 	    List<Viagem> viagensInternacionaisConvencionais = todasViagens.stream()
 	            .filter(viagem -> "convencional".equals(viagem.getTipo()) && !"Brasil".equals(viagem.getLocalidade()))
 	            .collect(Collectors.toList());
