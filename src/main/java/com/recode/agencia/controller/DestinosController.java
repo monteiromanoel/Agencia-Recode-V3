@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.recode.agencia.model.Viagem;
-import com.recode.agencia.services.ViagemService;
+import com.recode.agencia.entity.Viagem;
+import com.recode.agencia.service.ViagemService;
 
 @Controller
 public class DestinosController {

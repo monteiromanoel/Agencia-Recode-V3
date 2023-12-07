@@ -1,23 +1,39 @@
-package com.recode.agencia.model;
+package com.recode.agencia.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,30 +68,22 @@ public class Cliente {
 	@Column
 	private LocalDate data_nasc;
 	
-	@Column
-	private String role;
+	@ManyToMany(fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinTable(
+			name="users_roles",
+			joinColumns= {@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+			inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
 	
-	public Cliente() {
-		
+	private List<Role> roles = new ArrayList<>();
+	
+	public String getUsername() {
+		return email;
 	}
-
-	public Cliente(Long id, String nome, String email, String senha, String documento, String telefone,
-			String logradouro, String cep, String cidade, String uf, LocalDate data_nasc, String role) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-		this.documento = documento;
-		this.telefone = telefone;
-		this.logradouro = logradouro;
-		this.cep = cep;
-		this.cidade = cidade;
-		this.uf = uf;
-		this.data_nasc = data_nasc;
-		this.role = role;
+	
+	public boolean isAccountNonExpired(){
+		return true;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -164,24 +172,17 @@ public class Cliente {
 		this.data_nasc = data_nasc;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
 
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", documento="
 				+ documento + ", telefone=" + telefone + ", logradouro=" + logradouro + ", cep=" + cep + ", cidade="
-				+ cidade + ", uf=" + uf + ", data_nasc=" + data_nasc + ", role=" + role + "]";
+				+ cidade + ", uf=" + uf + ", data_nasc=" + data_nasc +"]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cep, cidade, data_nasc, documento, email, id, logradouro, nome, role, senha, telefone, uf);
+		return Objects.hash(cep, cidade, data_nasc, documento, email, id, logradouro, nome, senha, telefone, uf);
 	}
 
 	@Override
@@ -197,13 +198,9 @@ public class Cliente {
 				&& Objects.equals(data_nasc, other.data_nasc) && Objects.equals(documento, other.documento)
 				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
 				&& Objects.equals(logradouro, other.logradouro) && Objects.equals(nome, other.nome)
-				&& Objects.equals(role, other.role) && Objects.equals(senha, other.senha)
+				&& Objects.equals(senha, other.senha)
 				&& Objects.equals(telefone, other.telefone) && Objects.equals(uf, other.uf);
 	}
 
-	
-	
-	
-	
 	
 }

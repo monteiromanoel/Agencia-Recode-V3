@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,11 +15,11 @@
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
 
-	<script async type="text/javascript" src="./js/script.js"></script>
+	<script async type="text/javascript" src="../js/script.js"></script>
 
-	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="../image/favicon.ico" type="image/x-icon">
 
 </head>
 
@@ -29,8 +29,8 @@
 	<header class="container">
 		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" id="menu">
 			<div class="container-fluid">
-				<a th:href="@{/}" class="navbar-brand fs-2"> <img src="./image/voo-de-aviao.png"
-						width="50" height="50" alt=""> Recode Viagens</a>
+				<a th:href="@{/}" class="navbar-brand fs-2"> <img src="../image/voo-de-aviao.png" width="50" height="50"
+						alt=""> Recode Viagens</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -84,37 +84,47 @@
 							<div class="card-body p-md-5">
 								<div class="row justify-content-center">
 									<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
+										<div th:if="${param.success}">
+											<div class="alert alert-info">
+												Cadastro efetuado com sucesso!
+											</div>
+										</div>
 										<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Cadastro</p>
 
-										<form class="mx-1 mx-md-4" action="cadastrarUsuario" id="formCadastro"
-											method="post">
+										<form class="mx-1 mx-md-4" th:action="@{/register/save}" th:object="${cliente}"
+											id="formCadastro" method="post">
 
 											<div class="d-flex flex-row align-items-center mb-4">
 												<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 												<div class="form-outline flex-fill mb-0">
 													<input type="text" id="cadastroNome" class="form-control"
-														name="nome" required />
+														name="nome" th:field="*{nome}" required />
 													<label class="form-label" for="cadastroNome">Seu Nome</label>
 												</div>
+												<p th:errors = "*{nome}" class="text-danger"
+             									 th:if="${#fields.hasErrors('nome')}"></p>
 											</div>
 
 											<div class="d-flex flex-row align-items-center mb-4">
 												<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 												<div class="form-outline flex-fill mb-0">
 													<input type="email" id="cadastroEmail" class="form-control"
-														name="email" required />
+														name="email" th:field="*{email}" required />
 													<label class="form-label" for="cadastroEmail">Seu E-mail</label>
 												</div>
+												<p th:errors = "*{email}" class="text-danger"
+             									 th:if="${#fields.hasErrors('email')}"></p>
 											</div>
 
 											<div class="d-flex flex-row align-items-center mb-4">
 												<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 												<div class="form-outline flex-fill mb-0">
 													<input type="password" id="cadastroSenha1" class="form-control"
-														name="senha" required />
+														name="senha" th:field="*{senha}" required />
 													<label class="form-label" for="cadastroSenha1">Senha</label>
 												</div>
+												<p th:errors = "*{senha}" class="text-danger"
+             									 th:if="${#fields.hasErrors('senha')}"></p>
 											</div>
 
 											<div class="form-check d-flex justify-content-center mb-5">
@@ -128,6 +138,9 @@
 											<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
 												<button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
 											</div>
+											<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+												<span>Já é cadastrado? <a th:href="@{/login}" class="text-primary">Faça Login</a></span>
+											</div>
 
 										</form>
 
@@ -135,8 +148,7 @@
 									<div
 										class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-										<img src="./image/travelers-1.jpg" class="img-fluid"
-											alt="Imagem Cadastro">
+										<img src="../image/travelers-1.jpg" class="img-fluid" alt="Imagem Cadastro">
 
 									</div>
 								</div>
@@ -183,7 +195,7 @@
 				<div class="col">
 					<h5>Formas de Pagamento</h5>
 					<span class="bg-image">
-						<img src="./image/payment-method.jpg" alt="Métodos de Pagamento"
+						<img src="../image/payment-method.jpg" alt="Métodos de Pagamento"
 							style="width: 300px; height: 100px;">
 					</span>
 				</div>

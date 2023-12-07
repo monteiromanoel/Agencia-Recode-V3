@@ -64,9 +64,8 @@
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
 									<li><a class="dropdown-item"
-										th:href="@{/clientes}">Listar</a></li>
-									<li><a class="dropdown-item"
-										href="./views/dashboard/CadastroCliente.jsp">Cadastrar</a></li>
+										th:href="@{/users}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/registeradm}">Cadastrar</a></li>
 								</ul></li>
 
 							<li class="dropdown"><a href="#"
@@ -77,9 +76,8 @@
 							</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
-									<li><a class="dropdown-item"
-										th:href="@{/destinos}">Listar</a></li>
-									<li><a class="dropdown-item" href="./CadastroDestino.jsp">Cadastrar</a></li>
+									<li><a class="dropdown-item" th:href="@{/viagens}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/cadastroDestino}">Cadastrar</a></li>
 								</ul></li>
 
 							<li class="dropdown"><a href="#"
@@ -90,17 +88,19 @@
 							</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
-									<li><a class="dropdown-item" href="/Agencia-Viagem-V2/ListarReservas">Listar</a></li>
-									<li><a class="dropdown-item" href="/Agencia-Viagem-V2/CadastroReservaAdm">Cadastrar</a></li>
+									<li><a class="dropdown-item" th:href="@{/reservas}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/cadastroReserva}">Cadastrar</a></li>
 								</ul></li>
-							<li class="nav-item"><a href="/Agencia-Viagem-V2/index.html"
-								class="nav-link"  target="_blank"> <i class="fas fa-external-link-alt"></i>
+
+							<li class="nav-item"><a th:href="@{/index}"
+								class="nav-link" target="_blank"> <i class="fas fa-external-link-alt"></i>
 									Ver Loja
 							</a></li>
 
-							<li class="nav-item"><a href="#" class="nav-link"> <i
+							<li class="nav-item"><a th:href="@{/logout}" class="nav-link"> <i
 									class="fas fa-sign-out-alt"></i> Sair
 							</a></li>
+
 						</ul>
 					</div>
 				</div>
@@ -189,9 +189,8 @@
 	<footer class="row container-fluid footer">
 		<div class="col col-md-8">&reg; Recode Viagens - 2023</div>
 		<div class="col col-6 col-md-4 d-flex justify-content-end">Versão
-			- 2.0</div>
+			- 3.0</div>
 	</footer>
-
 
 </body>
 </html>

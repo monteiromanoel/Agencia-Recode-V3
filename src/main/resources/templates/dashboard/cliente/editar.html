@@ -57,7 +57,7 @@
 		<header class="container">
 			<nav class="navbar navbar-expand-lg fixed-top navbar-dark shadow-sm" id="menu">
 				<div class="container-fluid">
-					<a th:href="@{/}" class="navbar-brand">
+					<a th:href="@{/adm}" class="navbar-brand">
 						Adm - Recode Viagens </a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 						data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -66,7 +66,7 @@
 					</button>
 					<div class="collapse navbar-collapse flex-row-reverse" id="navbarContent">
 						<ul class="navbar-nav d-flex align-items-center">
-							<li class="nav-item"><a th:href="@{/}" class="nav-link"> <i class="fas fa-home"></i> Home
+							<li class="nav-item"><a th:href="@{/adm}" class="nav-link"> <i class="fas fa-home"></i> Home
 								</a></li>
 
 							<li class="dropdown"><a href="#" class="nav-link dropdown-toggle active" id="dropdown"
@@ -75,43 +75,44 @@
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
-									<li><a class="dropdown-item" th:href="@{/clientes}">Listar</a></li>
-									<li><a class="dropdown-item" th:href="@{/cadastroCliente}">Cadastrar</a></li>
-								</ul>
-							</li>
+									<li><a class="dropdown-item"
+										th:href="@{/users}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/registeradm}">Cadastrar</a></li>
+								</ul></li>
 
-							<li class="dropdown"><a href="#" class="nav-link dropdown-toggle" id="dropdown"
-									data-bs-toggle="dropdown" aria-expanded="false"> <i
-										class="fs-5 fas fa-map-marked"></i><span
-										class="ms-1 d-none d-sm-inline">Destinos</span>
-								</a>
+							<li class="dropdown"><a href="#"
+								class="nav-link dropdown-toggle" id="dropdown"
+								data-bs-toggle="dropdown" aria-expanded="false"> <i
+									class="fs-5 fas fa-map-marked"></i><span
+									class="ms-1 d-none d-sm-inline">Destinos</span>
+							</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
 									<li><a class="dropdown-item" th:href="@{/viagens}">Listar</a></li>
-									<li><a class="dropdown-item" href="./CadastroDestino.jsp">Cadastrar</a></li>
-								</ul>
-							</li>
+									<li><a class="dropdown-item" th:href="@{/cadastroDestino}">Cadastrar</a></li>
+								</ul></li>
 
-							<li class="dropdown"><a href="#" class="nav-link dropdown-toggle" id="dropdown"
-									data-bs-toggle="dropdown" aria-expanded="false"> <i
-										class="fs-4 fas fa-suitcase-rolling"></i><span
-										class="ms-1 d-none d-sm-inline">Reservas</span>
-								</a>
+							<li class="dropdown"><a href="#"
+								class="nav-link dropdown-toggle" id="dropdown"
+								data-bs-toggle="dropdown" aria-expanded="false"> <i
+									class="fs-4 fas fa-suitcase-rolling"></i><span
+									class="ms-1 d-none d-sm-inline">Reservas</span>
+							</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
-									<li><a class="dropdown-item" href="/Agencia-Viagem-V2/ListarReservas">Listar</a>
-									</li>
-									<li><a class="dropdown-item"
-											href="/Agencia-Viagem-V2/CadastroReservaAdm">Cadastrar</a></li>
-								</ul>
-							</li>
-							<li class="nav-item"><a href="/Agencia-Viagem-V2/index.html" class="nav-link"
-									target="_blank"> <i class="fas fa-external-link-alt"></i>
-									Ver Loja
-								</a></li>
+									<li><a class="dropdown-item" th:href="@{/reservas}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/cadastroReserva}">Cadastrar</a></li>
+								</ul></li>
 
-							<li class="nav-item"><a href="#" class="nav-link"> <i class="fas fa-sign-out-alt"></i> Sair
-								</a></li>
+							<li class="nav-item"><a th:href="@{/index}"
+								class="nav-link" target="_blank"> <i class="fas fa-external-link-alt"></i>
+									Ver Loja
+							</a></li>
+
+							<li class="nav-item"><a th:href="@{/logout}" class="nav-link"> <i
+									class="fas fa-sign-out-alt"></i> Sair
+							</a></li>
+
 						</ul>
 					</div>
 				</div>
@@ -133,7 +134,7 @@
 													</span>
 												</p>
 
-												<form class="mx-1 mx-md-4" action="editarCliente" id="formPerfil"
+												<form class="mx-1 mx-md-4" th:action="@{/editarCliente/save}" th:object="${id}" id="formPerfil"
 													method="post">
 													<input type="hidden" name="id" th:value="${cliente.id}">
 													<div class="d-flex flex-row align-items-center mb-4">
@@ -231,24 +232,12 @@
 																th:value="${cliente.data_nasc}" required />
 														</div>
 													</div>
-
-													<div class="d-flex flex-row flex-wrap mb-4">
-														<div class="col">
-															<label class="form-label" for="senha">Senha</label>
-															<i class="toggle-password fas fa-eye fs-5 mx-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar Senha" onclick="togglePasswordVisibility(this)"></i>
-								            				<input type="password" class="pass form-control" size="20" th:value="${cliente.senha}" name="senha" required/>
-														</div>
-														<div class="col">
-															<label class="form-label" for="role">Tipo de Usuário</label>
-															<select id="role" class="form-control form-select"
-																name="role" required>
-																<option th:value="${cliente.role}" th:text="${cliente.role}" disabled selected>Selecione</option>
-																<option value="ADMIN">ADMIN</option>
-																<option value="USER">USER</option>
-															</select>
-														</div>
+													<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+													<div class="form-outline flex-fill mb-0">
+														<input type="password" id="cadastroSenha1" class="form-control"
+															name="senha" required />
+														<label class="form-label" for="cadastroSenha1">Senha</label>
 													</div>
-
 													<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
 														<button type="submit" class="btn btn-primary btn-lg">Atualizar
 															Dados</button>
@@ -271,10 +260,7 @@
 	<footer class="row container-fluid footer">
 		<div class="col col-md-8">&reg; Recode Viagens - 2023</div>
 		<div class="col col-6 col-md-4 d-flex justify-content-end">Versão
-			- 2.0</div>
+			- 3.0</div>
 	</footer>
-
-
 </body>
-
 </html>

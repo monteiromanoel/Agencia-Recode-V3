@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Dashboard ADM</title>
@@ -89,8 +89,8 @@
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
 									<li><a class="dropdown-item"
-										th:href="@{/clientes}">Listar</a></li>
-									<li><a class="dropdown-item" th:href="@{/cadastroCliente}">Cadastrar</a></li>
+										th:href="@{/users}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/registeradm}">Cadastrar</a></li>
 								</ul></li>
 
 							<li class="dropdown"><a href="#"
@@ -113,16 +113,16 @@
 							</a>
 								<ul class="dropdown-menu dropdown-menu-dark text-small shadow"
 									aria-labelledby="dropdown">
-									<li><a class="dropdown-item" href="/Agencia-Viagem-V2/ListarReservas">Listar</a></li>
-									<li><a class="dropdown-item" href="/Agencia-Viagem-V2/CadastroReservaAdm">Cadastrar</a></li>
+									<li><a class="dropdown-item" th:href="@{/reservas}">Listar</a></li>
+									<li><a class="dropdown-item" th:href="@{/cadastroReserva}">Cadastrar</a></li>
 								</ul></li>
 
-							<li class="nav-item"><a th:href="@{/}"
+							<li class="nav-item"><a th:href="@{/index}"
 								class="nav-link" target="_blank"> <i class="fas fa-external-link-alt"></i>
 									Ver Loja
 							</a></li>
 
-							<li class="nav-item"><a href="#" class="nav-link"> <i
+							<li class="nav-item"><a th:href="@{/logout}" class="nav-link"> <i
 									class="fas fa-sign-out-alt"></i> Sair
 							</a></li>
 
@@ -136,6 +136,8 @@
 				<div class="col pt-4 pb-4">
 					<h1>Dashboard de Administrador</h1>
 					<p class="lead">Acesse os campos por aqui ou pelo menu</p>
+					<div sec:authorize="isAuthenticated()">
+      					Logado como <span sec:authentication="name"></span></div>
 					<hr />
 					
 					<div class="row d-flex flex-wrap justify-content-center my-3">
@@ -145,8 +147,8 @@
 					        <h5 class="card-title">Clientes</h5>
 					        <p class="card-text">Acesse dados referentes aos clientes. Atualize, delete ou cadastre novos</p>
 					        <div class="d-flex justify-content-center">
-					         	<a href="/Agencia-Viagem-V2/ListarUsuarios" class="btn btn-primary mx-2">Lista de Clientes</a>
-					        	<a href="./CadastroCliente.jsp" class="btn btn-primary mx-2">Cadastro de Cliente</a>
+					         	<a th:href="@{/users}" class="btn btn-primary mx-2">Lista de Clientes</a>
+					        	<a th:href="@{/registeradm}" class="btn btn-primary mx-2">Cadastro de Cliente</a>
 					        </div>
 					       
 					      </div>
@@ -158,8 +160,8 @@
 					        <h5 class="card-title">Destinos</h5>
 					        <p class="card-text">Acesse dados referentes aos destinos. Atualize, delete ou cadastre novos</p>
 					        <div class="d-flex justify-content-center">
-					         	<a href="/Agencia-Viagem-V2/ListarDestinos" class="btn btn-primary mx-2">Lista de Destinos</a>
-					        	<a href="./CadastroDestino.jsp" class="btn btn-primary mx-2">Cadastro de Destino</a>
+					         	<a th:href="@{/viagens}" class="btn btn-primary mx-2">Lista de Destinos</a>
+					        	<a th:href="@{/cadastroDestino}" class="btn btn-primary mx-2">Cadastro de Destino</a>
 					        </div>
 					       
 					      </div>
@@ -174,8 +176,8 @@
 					        <h5 class="card-title">Reservas</h5>
 					        <p class="card-text">Acesse dados referentes às reservas. Atualize, delete ou cadastre novos</p>
 					        <div class="d-flex justify-content-center">
-					         	<a href="/Agencia-Viagem-V2/ListarReservas" class="btn btn-primary mx-2">Lista de Reservas</a>
-					        	<a href="/Agencia-Viagem-V2/CadastroReservaAdm" class="btn btn-primary mx-2">Cadastro de Reserva</a>
+					         	<a th:href="@{/reservas}" class="btn btn-primary mx-2">Lista de Reservas</a>
+					        	<a th:href="@{/cadastroReserva}" class="btn btn-primary mx-2">Cadastro de Reserva</a>
 					        </div>
 					      </div>
 					    </div>
@@ -190,7 +192,7 @@
 	<footer class="row container-fluid footer">
 		<div class="col col-md-8">&reg; Recode Viagens - 2023</div>
 		<div class="col col-6 col-md-4 d-flex justify-content-end">Versão
-			- 2.0</div>
+			- 3.0</div>
 	</footer>
 
 </body>

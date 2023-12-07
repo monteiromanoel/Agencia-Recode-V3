@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,6 @@
 
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
-		// Função para obter os parâmetros da URL
 		function obterParametrosUrl() {
 			var params = {};
 			window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(
@@ -63,14 +62,14 @@
     <header class="container">
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" id="menu">
             <div class="container-fluid">
-                <a th:href="@{/}" class="navbar-brand fs-2"> <img src="./image/voo-de-aviao.png" width="50" height="50" alt=""> Recode Viagens</a>
+                <a th:href="@{/index}" class="navbar-brand fs-2"> <img src="./image/voo-de-aviao.png" width="50" height="50" alt=""> Recode Viagens</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse flex-row-reverse" id="navbarContent">
                     <ul class="navbar-nav d-flex align-items-center">
                         <li class="nav-item">
-                            <a th:href="@{/}" class="nav-link"> <i class="fas fa-home"></i> Página Principal</a>
+                            <a th:href="@{/index}" class="nav-link"> <i class="fas fa-home"></i> Página Principal</a>
                         </li>
                         <li class="nav-item">
                             <a href="Destinos" class="nav-link"> <i class="fas fa-map-marked-alt"></i> Destino</a>
@@ -82,7 +81,7 @@
                             <a th:href="@{/contato}" class="nav-link"><i class="fas fa-phone"></i> Contato</a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/cadastro}" class="nav-link"><i class="fas fa-user-edit"></i> Cadastro</a>
+                            <a th:href="@{/register}" class="nav-link"><i class="fas fa-user-edit"></i> Cadastro</a>
                         </li>
                         <li class="nav-item">
                             <a th:href="@{/login}" class="nav-link active"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -117,22 +116,30 @@
                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
           
                           <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
+                          
+                          <div th:if="${param.error}">
+							  <div class="alert alert-danger">E-mail ou senha inválidos</div>
+						  </div>
+						  
+						  <div th:if="${param.logout}">
+							  <div class="alert alert-success">Você foi desconectado</div>
+						  </div>
           
-                          <form class="mx-1 mx-md-4" action="Autenticacao" id="formLogin" method="post">
+                          <form class="mx-1 mx-md-4" th:action="@{/login}" id="formLogin" method="post">
           
                             <div class="d-flex flex-row align-items-center mb-4">
                               <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                               <div class="form-outline flex-fill mb-0">
-                                <input type="email" id="loginEmail" class="form-control" name="email" required/>
-                                <label class="form-label" for="loginEmail">Seu E-mail</label>
+                                <input type="email" id="username" class="form-control" name="username" required/>
+                                <label class="form-label" for="username">Seu E-mail</label>
                               </div>
                             </div>
           
                             <div class="d-flex flex-row align-items-center mb-4">
                               <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                               <div class="form-outline flex-fill mb-0">
-                                <input type="password" id="loginSenha" class="form-control" name="senha" required/>
-                                <label class="form-label" for="loginSenha">Senha</label>
+                                <input type="password" id="password" class="form-control" name="password" required/>
+                                <label class="form-label" for="password">Senha</label>
                               </div>
                             </div>
           
