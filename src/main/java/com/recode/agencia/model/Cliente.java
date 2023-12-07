@@ -49,14 +49,14 @@ public class Cliente {
 	private String uf;
 	
 	@Column
-	private LocalDate data_nasc;
+	private LocalDate dataNasc;
 	
 	public Cliente() {
 		
 	}
 
 	public Cliente(Long id, String nome, String email, String senha, String documento, String telefone,
-			String logradouro, String cep, String cidade, String uf, LocalDate data_nasc) {
+			String logradouro, String cep, String cidade, String uf, LocalDate dataNasc) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -68,7 +68,7 @@ public class Cliente {
 		this.cep = cep;
 		this.cidade = cidade;
 		this.uf = uf;
-		this.data_nasc = data_nasc;
+		this.dataNasc = dataNasc;
 	}
 	
 	
