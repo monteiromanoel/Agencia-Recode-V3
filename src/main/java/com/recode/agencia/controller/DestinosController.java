@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.recode.agencia.model.Viagem;
-import com.recode.agencia.services.ViagemService;
+import com.recode.agencia.entity.Viagem;
+import com.recode.agencia.service.ViagemService;
 
 @Controller
 public class DestinosController {
@@ -20,18 +20,16 @@ public class DestinosController {
 	
 	public DestinosController(ViagemService viagemService) {
         this.viagemService = viagemService;
-    };
+    }
 	
 	@GetMapping("/destinos")
 	public String destinosConvencionais(Model model) {
 		List<Viagem> todasViagens = viagemService.buscarTodasViagens();
 	    
-	    // Filtrar viagens convencionais nacionais (localidade = Brasil)
 	    List<Viagem> viagensNacionaisConvencionais = todasViagens.stream()
 	            .filter(viagem -> "convencional".equals(viagem.getTipo()) && "Brasil".equals(viagem.getLocalidade()))
 	            .collect(Collectors.toList());
 
-	    // Filtrar viagens convencionais internacionais (localidade != Brasil)
 	    List<Viagem> viagensInternacionaisConvencionais = todasViagens.stream()
 	            .filter(viagem -> "convencional".equals(viagem.getTipo()) && !"Brasil".equals(viagem.getLocalidade()))
 	            .collect(Collectors.toList());
@@ -40,7 +38,7 @@ public class DestinosController {
 	    model.addAttribute("viagensNacConv", viagensNacionaisConvencionais);
 		return "viagens/destino.html";
 		
-	};
+	}
 	
 	@GetMapping("/promocoes")
 	public String destinosPromocionais(Model model) {
@@ -60,7 +58,7 @@ public class DestinosController {
 	    model.addAttribute("viagensNacProm", viagensNacionaisPromocionais);
 		return "viagens/promocoes.html";
 		
-	};
+	}
 	
 	@GetMapping("/detalheDestino")
 	public String detalheDestino(@RequestParam("id") Long id, Model model) {
@@ -68,7 +66,7 @@ public class DestinosController {
 		
 		model.addAttribute("viagem",viagem);
 		return "viagens/detalheDestino.html";
-	};
+	}
 	
 	@GetMapping("/detalhePromocao")
 	public String detalhePromocao(@RequestParam("id") Long id, Model model) {
@@ -76,7 +74,7 @@ public class DestinosController {
 		
 		model.addAttribute("viagem",viagem);
 		return "viagens/detalhePromocao.html";
-	};
+	}
 	
 	@PostMapping("/pesquisa")
 	public String pesquisarViagens(@RequestParam("pesquisaDestino") String pesquisaDestino, Model model) {
@@ -84,5 +82,4 @@ public class DestinosController {
 		model.addAttribute("resultados",resultadosPesquisa);
 		return "resultadoPesquisa.html";
 	}
-	
 }

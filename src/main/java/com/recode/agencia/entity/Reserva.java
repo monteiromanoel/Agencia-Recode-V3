@@ -1,6 +1,6 @@
-package com.recode.agencia.model;
+package com.recode.agencia.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "reserva")
 public class Reserva {
@@ -27,7 +29,7 @@ public class Reserva {
 	private int num_passageiros;
 	
 	@Column
-	private Date data_reserva;
+	private LocalDate data_reserva;
 	
 	@Column
 	private Double preco;
@@ -44,7 +46,7 @@ public class Reserva {
 		
 	}
 
-	public Reserva(Long id, int num_passageiros, Date data_reserva, Double preco, Cliente idCliente, Viagem idViagem) {
+	public Reserva(Long id, int num_passageiros, LocalDate data_reserva, Double preco, Cliente idCliente, Viagem idViagem) {
 		super();
 		this.id = id;
 		this.num_passageiros = num_passageiros;
@@ -53,6 +55,8 @@ public class Reserva {
 		this.idCliente = idCliente;
 		this.idViagem = idViagem;
 	}
+	
+	
 	
 	
 }

@@ -1,4 +1,4 @@
-package com.recode.agencia.services;
+package com.recode.agencia.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.recode.agencia.model.Viagem;
+import com.recode.agencia.entity.Viagem;
 import com.recode.agencia.repository.ViagemRepository;
 
 @Service

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Recode Viagens - Pesquisa</title>
+	<title>Recode Viagens - Reservas </title>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -17,16 +17,27 @@
 
 	<link rel="stylesheet" href="./css/style.css">
 
-	<link rel="stylesheet" href="./css/estiloDestinos.css">
-
-
 	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/scriptDeleteReserva.js"></script>
+
+
 	<script>
-		function exibirResultadoPesquisa() {
-			var divResultado = document.getElementById("resultadoPesquisa");
-			divResultado.style.display = "block";
-		}
+		document.addEventListener('DOMContentLoaded', function () {
+			// Função para obter os parâmetros da URL
+			function obterParametrosUrl() {
+				var params = {};
+				window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (
+					str, key, value) {
+					params[key] = value;
+				});
+				return params;
+			}
+
+
+		});
 
 		document.addEventListener("DOMContentLoaded", function () {
 			var dataConvertElements = document.querySelectorAll('.dataConvert');
@@ -47,7 +58,11 @@
 				precosFormatados[i].textContent = precoFormatado;
 			}
 		});
+
 	</script>
+
+
+
 </head>
 
 <body>
@@ -56,7 +71,7 @@
 	<header class="container">
 		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" id="menu">
 			<div class="container-fluid">
-				<a th:href="@{/index}" class="navbar-brand fs-2"> <img src="/image/voo-de-aviao.png" width="50" height="50"
+				<a th:href="@{/}" class="navbar-brand fs-2"> <img src="/image/voo-de-aviao.png" width="50" height="50"
 						alt=""> Recode Viagens</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +88,7 @@
 								Principal</a>
 						</li>
 						<li class="nav-item">
-							<a th:href="@{/destinos}" class="nav-link active"> <i class="fas fa-map-marked-alt"></i>
+							<a th:href="@{/destinos}" class="nav-link"> <i class="fas fa-map-marked-alt"></i>
 								Destino</a>
 						</li>
 						<li class="nav-item">
@@ -88,15 +103,15 @@
 						<li sec:authorize="!isAuthenticated()" class="nav-item">
 							<a th:href="@{/login}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
 						</li>
-						<li sec:authorize="isAuthenticated()" class="nav-item active">
-						    <a th:href="@{/perfil}" class="nav-link">
-						        <i class="fas fa-user"></i> Perfil
-						    </a>
+						<li sec:authorize="isAuthenticated()" class="nav-item">
+							<a th:href="@{/perfil}" class="nav-link">
+								<i class="fas fa-user"></i> Perfil
+							</a>
 						</li>
-						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/reservasCliente}" class="nav-link"><i
-									class="fas fa-book"></i> Reservas</a></li>
-						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/logout}" class="nav-link"><i
-									class="fas fa-sign-out-alt"></i> Sair</a></li>
+						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/reservasCliente}"
+								class="nav-link active"><i class="fas fa-book"></i> Reservas</a></li>
+						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/logout}"
+								class="nav-link"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
 
 					</ul>
 				</div>
@@ -109,93 +124,104 @@
 		<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
 			<div class="d-flex justify-content-center align-items-center h-100 w-100">
 				<div class="text-white">
-					<div class="text-white">
-						<h1 class="mb-3">As Melhores Localizações</h1>
-						<h4 class="mb-3">Visite os melhores locais com os melhores
-							preços, nacional ou internacional!</h4>
-					</div>
+					<h1 class="mb-3">Suas Reservas</h1>
+					<h4 class="mb-3">Veja suas reservas</h4>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Área Principal -->
-	<main class="container-fluid">
-		<section class="container">
-			<form class="input-group" action="/pesquisa" method="post">
-				<input type="search" class="form-control my-4" placeholder="Pesquisar Destinos" name="pesquisaDestino"
-					aria-label="Pesquisar Destinos" aria-describedby="search-addon" />
-				<button type="submit" class="btn btn-primary my-4">Pesquisar</button>
-			</form>
-
-			<div th:if="${#lists.isEmpty(resultados)}">
-				<h2 class="text-primary text-center">Destino não encontrado</h2>
-				<div class="d-flex justify-content-center">
-					<a href="Destinos" class="btn btn-primary btn-lg text-center">Voltar</a>
-				</div>
-			</div>
-
-			<div th:unless="${#lists.isEmpty(resultados)}">
-				<h2 class="text-primary">Resultado da Pesquisa</h2>
-				<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-					<div th:each="viagem : ${resultados}" class="card">
-						<div class="card-header bg-success">
-							<h5 class="card-title text-white text-center">
-								<i class="fas fa-plane pt-2"></i> <span
-									th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
-							</h5>
+	<main class="container-fluid mb-6">
+		<section class="vh-75 mt-5">
+			<div class="container-fluid h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-lg-12 col-xl-11">
+						<div th:if="${param.success}">
+							<div class="alert alert-primary alert-dismissible fade show" role="alert">
+								<i class="far fa-check-circle px-2 fs-3"></i>Reserva efetuada com sucesso!
+								<button type="button" class="btn-close" data-bs-dismiss="alert"
+									aria-label="Close"></button>
+							</div>
 						</div>
-						<div class="card-body text-center">
-							<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
-								alt="">
-							<p class="card-text mt-1">
-								<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
-									title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
-								<span class="dataConvert" th:text="${viagem.data_volta}"></span>
-							</p>
-							<p class="card-text">
-								<span class="text-secondary fs-6">Tipo do Pacote</span> <br>
-								<span th:text="${viagem.tipo}"
-											th:class="${viagem.tipo eq 'promocional'} ? 'bg-promocional' + ' fs-5 text-white px-2 rounded shadow-sm' : 'bg-convencional' + ' fs-5 text-white px-2 rounded shadow-sm'"></span>
-							</p>
-							<p class="card-text">
-								<span class="text-muted fs-4">Em até </span><span class="text-primary fs-3"> 10x </span>
-								<span class="text-muted fs-4">sem juros! </span>
-							</p>
-							<a th:if="${viagem.tipo == 'promocional'}" th:href="@{/detalhePromocao(id=${viagem.id})}"
-								class="btn btn-warning px-5 fw-semibold btnPromocao">
-								Ver Pacote <i class="fas fa-arrow-right"></i>
-							</a>
+						<div th:if="${param.deleteSuccess}">
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<i class="far fa-check-circle px-2 fs-3"></i>Reserva excluida com sucesso!
+								<button type="button" class="btn-close" data-bs-dismiss="alert"
+									aria-label="Close"></button>
+							</div>
+						</div>
+						<div class="card text-black" style="border-radius: 25px;">
+							<div class="card-body p-md-5">
+								<div class="row justify-content-center">
+									<div>
+										<form>
+											<div class="table-responsive tableReservas">
+												<table class="table table-hover text-center">
+													<thead>
+														<tr>
+															<td scope="col" class="bg-info text-white">Id
+																Reserva</td>
+															<td scope="col" class="bg-info text-white">Id
+																Cliente</td>
+															<td scope="col" class="bg-info text-white">Id Pacote</td>
+															<td scope="col" class="bg-info text-white">Data da
+																Reserva</td>
+															<td scope="col" class="bg-info text-white">Número de
+																Passageiros</td>
+															<td scope="col" class="bg-info text-white">Preço
+																Final</td>
+														</tr>
+													</thead>
+													<tbody>
+														<tr scope="row" th:each="reserva , iterStat: ${reservas}">
+															<td th:text="${reserva.id}"></td>
+															<td th:text="${reserva.idCliente.id}"></td>
+															<td th:text="${reserva.idViagem.id}"></td>
+															<td><span class="dataConvert"
+																	th:text="${reserva.data_reserva}"></span></td>
+															<td th:text="${reserva.num_passageiros}"></td>
+															<td><span th:text="${reserva.preco}" class="valorPacote"
+																	style="display: none;"></span>
+																<span class="precoMoeda"></span>
+															</td>
+															<td>
+																<div class="dropdown">
+																	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+																	    Ações
+																	  </button>
+																	  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+																	    <li><a th:href="@{'/detalheReservaCliente?idReserva=' + ${reserva.id}}"
+																		style="cursor: pointer;"
+																		class="dropdown-item btn"> Ver Detalhes</li>
+																	    <li><a href="#"
+																		th:onclick="'confirmarDeletar(\'' + ${reserva.id} + '\')'"
+																		style="cursor: pointer;"
+																		class="dropdown-item btn">Cancelar Reserva</li>
+																	  </ul>
+																	</div>
+															</td>
 
-							<a th:if="${viagem.tipo == 'convencional'}"
-								th:href="@{/detalheDestino(id=${viagem.id})}"
-								class="btn btn-warning px-5 fw-semibold btnPromocao">
-								Ver Pacote <i class="fas fa-arrow-right"></i>
-							</a>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+
 		</section>
 	</main>
 
-
-	<!-- Newsletter -->
-	<section class="container p-4 mt-2">
-		<div class="form-control row d-flex justify-content-center p-3 bg-info bg-image img-fluid" id="newsletter">
-			<h5 class="text-center">
-				<mark>Receba Ofertas por E-mail</mark>
-			</h5>
-			<div class="input-group p-3">
-				<input type="email" class="form-control rounded" placeholder="Insira seu melhor e-mail aqui!"
-					aria-label="Insira seu melhor e-mail aqui!" aria-describedby="search-addon" />
-				<button type="submit" class="btn btn-lg btn-primary">Enviar</button>
-			</div>
-		</div>
-	</section>
-
-
 	<hr class="mt-4">
-	<footer>
+
+	<footer class="mt-5">
 		<section class="container-fluid my-4">
 			<div class="row">
 				<div class="col mb-4">
@@ -255,6 +281,9 @@
 			</div>
 		</section>
 	</footer>
+
+	<script src="./js/plugins/jquery-mask/jquery.mask.min.js"></script>
+	<script src="./js/plugins/select2/js/select2.full.min.js"></script>
 </body>
 
 </html>
