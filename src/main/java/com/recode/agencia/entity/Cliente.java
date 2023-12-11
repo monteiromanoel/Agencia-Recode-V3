@@ -3,8 +3,12 @@ package com.recode.agencia.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,7 +34,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "cliente")
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -200,6 +204,36 @@ public class Cliente implements Serializable {
 				&& Objects.equals(logradouro, other.logradouro) && Objects.equals(nome, other.nome)
 				&& Objects.equals(senha, other.senha)
 				&& Objects.equals(telefone, other.telefone) && Objects.equals(uf, other.uf);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

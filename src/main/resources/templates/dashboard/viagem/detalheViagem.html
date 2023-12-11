@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -14,6 +14,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
 	<link rel="stylesheet" href="./css/estiloDash.css">
+	
+	<link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
@@ -243,8 +245,10 @@
 
 				</jstl:forEach>
 
-				<div class="d-flex justify-content-center my-3">
+				<div class="d-flex justify-content-center align-items-center gap-4 my-3">
 					<a th:href="@{/viagens}" class="btn btn-lg btn-success"> Voltar </a>
+					
+					<a th:href="@{/detalheDestino(id=${viagem.id})}" target="_blank" class="link-opacity-75 fs-5"> Ver na Loja</a>
 				</div>
 			</main>
 

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Recode Viagens - Destino</title>
+	<title>Recode Viagens - Confirmação de Reserva</title>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -17,14 +17,13 @@
 
 	<link rel="stylesheet" href="./css/style.css">
 
-	<link rel="stylesheet" href="./css/estiloDestinos.css">
+	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="./js/scriptDetalheReserva.js"></script>
 
 	<script>
-		function exibirResultadoPesquisa() {
-			var divResultado = document.getElementById("resultadoPesquisa");
-			divResultado.style.display = "block";
-		}
-
 		document.addEventListener("DOMContentLoaded", function () {
 			var dataConvertElements = document.querySelectorAll('.dataConvert');
 
@@ -34,20 +33,8 @@
 				var dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
 				element.textContent = dataFormatada;
 			});
-			
-			var precos = document.getElementsByClassName("valorPacote");
-	        var precosFormatados = document.getElementsByClassName('precoMoeda');
-	
-	        for (var i = 0; i < precos.length; i++) {
-	            var preco = precos[i].innerText.trim();
-	            var precoFormatado = parseFloat(preco).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-	            precosFormatados[i].textContent = precoFormatado;
-	        }
 		});
 	</script>
-
-
-	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
 
 </head>
 
@@ -110,118 +97,99 @@
 		<div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
 			<div class="d-flex justify-content-center align-items-center h-100 w-100">
 				<div class="text-white">
-					<h1 class="mb-3">As Melhores Localizações</h1>
-					<h4 class="mb-3">Visite os melhores locais com os melhores
-						preços, nacional ou internacional!</h4>
+					<h1 class="mb-3">#Reserva</h1>
+					<h4 class="mb-3">Verifique os dados de sua reserva</h4>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Área Principal -->
-	<main class="container-fluid">
-		<section class="container">
+	<main class="container-fluid mb-6">
+		<section class="vh-75 mt-5">
+			<div class="container h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-lg-12 col-xl-11">
+						<div class="card text-black" style="border-radius: 25px;">
+							<div class="card-body p-md-5">
+								<div class="row justify-content-center">
+									<div class="col-xxl-5">
 
-			<form class="input-group" action="/pesquisa" method="post">
-				<input type="text" class="form-control my-4" placeholder="Pesquisar Destinos" name="pesquisaDestino"
-					aria-label="Pesquisar Destinos" aria-describedby="search-addon" />
-				<button type="submit" class="btn btn-primary my-4">Pesquisar</button>
-			</form>
+										<form class="mx-1 my-3 mx-md-4" th:action="@{/confirmaReserva/save}" id="formReserva"
+											method="post">
+											<div th:each="viagem : ${viagem}">
+												<p class="text-center h2 fw-bold mb-5 mt-4">
+													Seu Destino: <span
+														style="color: #8AA6A3 !important;" th:text="${viagem.destino} + ' - ' + ${viagem.localidade}"></span>
+												</p>
+												<ul class="list-group">
+													<li class="list-group-item">Data da Ida:
+														<span class="dataConvert" th:text="${viagem.data_ida}"></span>
+													</li>
+													<li class="list-group-item">Data da Volta:
+														<span class="dataConvert" th:text="${viagem.data_volta}"></span>
+													</li>
+													<li class="list-group-item" th:text="'Adicional do Pacote: ' + ${viagem.adicional}"></li>
+													<li class="list-group-item" th:text="'Tipo do Pacote: ' + ${viagem.tipo}">
+														</li>
+													<li class="list-group-item">Preço: R$<span
+															class="preco" th:text="${viagem.preco}"></span></li>
+													<li class="list-group-item d-flex justify-content-start">Número
+														de Passageiros: <input type="number"
+															class="form-control w-25 mx-2" required id="num_passageiros"
+															min="1" value="1" name="num_passageiros">
+														<button type="button" class="btn btn-warning text-white mx-2"
+															onclick="calcularTotal()">Calcular Total</button>
+													</li>
+													<li class="list-group-item">Total: <span id="total">R$0,00</span>
+													</li>
+													<input type="hidden" th:value="${viagem.id}" name="idViagem"/>
+												</ul>
+												<hr class="mt-3">
+												<div th:each="cliente : ${cliente}">
+													<p class="text-center h2 fw-bold mb-5 mt-4">
+														Seus Dados: <span
+															style="color: #8AA6A3 !important;" th:text="${cliente.nome}">
+														</span>
+													</p>
+													<p class="text-muted">Se algum dado do perfil estiver faltando, sugerimos o preenchimento em <a th:href="@{/perfil}">Perfil</a> para evitar problemas futuros, ok?</p>
+													<ul class="list-group">
+														<li class="list-group-item">E-mail: <span th:text="${cliente.email}"></span></li>
+														<li class="list-group-item">Endereço:
+															<span th:text="${cliente.logradouro} + ', ' + 'CEP: ' + ${cliente.cep}"></span></li>
+														<li class="list-group-item">Cidade:
+															<span th:text="${cliente.cidade} + '/' + ${cliente.uf}"></spanth></li>
+														<li class="list-group-item">Telefone:
+															<span th:text="${cliente.telefone}"></span></li>
+														<li class="list-group-item">Documento:
+															<span th:text="${cliente.documento}"></span></li>
+														<li class="list-group-item">Data de Nascimento: <span
+																id="dataNascimento" th:text="${cliente.data_nasc}"></span></li>
+													</ul>
+													<input type="hidden" th:value="${cliente.id}" name="idCliente"/>
+												</div>
+											</div>
+											<div class="py-3 d-flex justify-content-center">
+												<button type="submit" class="btn btn-success">Confirmar
+													Reserva</button>
+											</div>
 
-			<h2 class="text-primary">Viagens Internacionais</h2>
-			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<div class="card" th:each="viagem : ${viagensInterConv}">
+										</form>
 
-					<div class="card-header bg-success">
-						<h5 class="card-title text-white text-center pt-2">
-							<i class="fas fa-plane"></i>
-							<span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
-						</h5>
-					</div>
-					<div class="card-body text-center">
-						<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
-							alt="">
-						<p class="card-text mt-1">
-							<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
-								title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
-							<span class="dataConvert" th:text="${viagem.data_volta}"></span>
-
-						</p>
-						<p class="card-text">
-							<span class="text-secondary fs-3">10x</span> <span class="text-primary fs-2">
-								<span th:text="${viagem.preco/10}" class="valorPacote" style="display: none;"></span>
-							<span class="precoMoeda"></span>
-							</span>
-						</p>
-						<a th:href="@{/detalheDestino(id=${viagem.id})}"
-							class="btn btn-warning px-5 fw-semibold btnPromocao">Ver
-							Pacote <i class="fas fa-arrow-right"></i>
-						</a>
-					</div>
-				</div>
-				</th:each>
-			</div>
-
-
-		</section>
-
-		<hr class="my-5">
-		<section class="container mt-3">
-			<h2 class="text-success">
-				Viagens <span class="text-warning">Nacionais</span>
-			</h2>
-			<div class="d-flex justify-content-center mt-3 flex-wrap w-100 g-4">
-				<div class="card" th:each="viagem : ${viagensNacConv}">
-
-					<div class="card-header bg-success">
-						<h5 class="card-title text-white text-center pt-2">
-							<i class="fas fa-plane"></i>
-							<span th:text="${viagem.destino} + ' / ' + ${viagem.localidade}"></span>
-						</h5>
-					</div>
-					<div class="card-body text-center">
-						<img th:src="@{${viagem.imagem}}" class="card-img rounded img-fluid img-thumbnail border-0"
-							alt="">
-						<p class="card-text mt-1">
-							<span class="dataConvert" th:text="${viagem.data_ida}"></span> <abbr
-								title="Data de Ida e Volta"><i class="fas fa-plane-departure mx-1 fs-5"></i></abbr>
-							<span class="dataConvert" th:text="${viagem.data_volta}"></span>
-
-						</p>
-						<p class="card-text">
-							<span class="text-secondary fs-3">10x</span> <span class="text-primary fs-2">
-								<span th:text="${viagem.preco/10}" class="valorPacote" style="display: none;"></span>
-							<span class="precoMoeda"></span>
-							</span>
-						</p>
-						<a th:href="@{/detalheDestino(id=${viagem.id})}"
-							class="btn btn-warning px-5 fw-semibold btnPromocao">Ver
-							Pacote <i class="fas fa-arrow-right"></i>
-						</a>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				</th:each>
 			</div>
+
 		</section>
 	</main>
 
-	<!-- Newsletter -->
-	<section class="container p-4 mt-2">
-		<div class="form-control row d-flex justify-content-center p-3 bg-info bg-image img-fluid" id="newsletter">
-			<h5 class="text-center">
-				<mark>Receba Ofertas por E-mail</mark>
-			</h5>
-			<div class="input-group p-3">
-				<input type="email" class="form-control rounded" placeholder="Insira seu melhor e-mail aqui!"
-					aria-label="Insira seu melhor e-mail aqui!" aria-describedby="search-addon" />
-				<button type="submit" class="btn btn-lg btn-primary">Enviar</button>
-			</div>
-		</div>
-	</section>
-
-
 	<hr class="mt-4">
-	<footer>
+
+	<footer class="mt-5">
 		<section class="container-fluid my-4">
 			<div class="row">
 				<div class="col mb-4">
@@ -281,6 +249,9 @@
 			</div>
 		</section>
 	</footer>
+
+	<script src="./js/plugins/jquery-mask/jquery.mask.min.js"></script>
+	<script src="./js/plugins/select2/js/select2.full.min.js"></script>
 </body>
 
 </html>

@@ -20,7 +20,7 @@ public class DestinosController {
 	
 	public DestinosController(ViagemService viagemService) {
         this.viagemService = viagemService;
-    };
+    }
 	
 	@GetMapping("/destinos")
 	public String destinosConvencionais(Model model) {
@@ -38,7 +38,7 @@ public class DestinosController {
 	    model.addAttribute("viagensNacConv", viagensNacionaisConvencionais);
 		return "viagens/destino.html";
 		
-	};
+	}
 	
 	@GetMapping("/promocoes")
 	public String destinosPromocionais(Model model) {
@@ -58,7 +58,7 @@ public class DestinosController {
 	    model.addAttribute("viagensNacProm", viagensNacionaisPromocionais);
 		return "viagens/promocoes.html";
 		
-	};
+	}
 	
 	@GetMapping("/detalheDestino")
 	public String detalheDestino(@RequestParam("id") Long id, Model model) {
@@ -66,7 +66,7 @@ public class DestinosController {
 		
 		model.addAttribute("viagem",viagem);
 		return "viagens/detalheDestino.html";
-	};
+	}
 	
 	@GetMapping("/detalhePromocao")
 	public String detalhePromocao(@RequestParam("id") Long id, Model model) {
@@ -74,7 +74,7 @@ public class DestinosController {
 		
 		model.addAttribute("viagem",viagem);
 		return "viagens/detalhePromocao.html";
-	};
+	}
 	
 	@PostMapping("/pesquisa")
 	public String pesquisarViagens(@RequestParam("pesquisaDestino") String pesquisaDestino, Model model) {
@@ -82,5 +82,4 @@ public class DestinosController {
 		model.addAttribute("resultados",resultadosPesquisa);
 		return "resultadoPesquisa.html";
 	}
-	
 }

@@ -176,7 +176,15 @@ mark {
 @media (max-width: 799px) {
 	.avisoPerfil {
 	    top: 15%;
-	}
-
-	
+	}	
 }
+
+.dataNascimento {
+	width: fit-content!important;
+}
+
+.tableReservas {
+	min-height: 200px;
+}
+
+

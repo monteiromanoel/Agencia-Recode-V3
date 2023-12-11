@@ -1,5 +1,6 @@
 package com.recode.agencia.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +10,24 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.recode.agencia.dto.UserDto;
 import com.recode.agencia.entity.Cliente;
-import com.recode.agencia.entity.Viagem;
 import com.recode.agencia.service.ClienteService;
 import com.recode.agencia.service.ViagemService;
 import com.recode.agencia.service.imp.UserService;
 
 import jakarta.validation.Valid;
 
+@SuppressWarnings("unused")
 @Controller
 public class AuthController {
 
 	@Autowired
 	private UserService userService;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private ViagemService viagemService;
 
@@ -96,5 +99,5 @@ public class AuthController {
 		userService.saveUserAdmin(cliente);
 		return "redirect:/registeradm?success";
 	}
-
+	
 }

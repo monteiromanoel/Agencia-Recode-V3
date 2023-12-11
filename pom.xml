@@ -72,6 +72,11 @@
 		    <artifactId>spring-boot-devtools</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>br.com.empreenda</groupId>
+			<artifactId>demo</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

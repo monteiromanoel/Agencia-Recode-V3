@@ -55,8 +55,7 @@ public class AdminController {
 	public String index() {
 		return "dashboard/index.html";
 	}
-	
-	
+ 	
 	// CLIENTES
 	@GetMapping("/clientes")
 	public ModelAndView clientes() {
@@ -108,7 +107,7 @@ public class AdminController {
 	@GetMapping("/deletarCliente")
 	public ModelAndView excluirCliente(@RequestParam Long id) {
 	    ModelAndView modelAndView = new ModelAndView("redirect:/users?deleteSuccess");
-	    clienteRepository.deleteById(id);
+	    clienteService.excluirCliente(id);
 	    return modelAndView;
 	}
 	
@@ -246,7 +245,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/deletarReserva")
-	public ModelAndView excluirReserva(@RequestParam Long id) {
+	public ModelAndView excluirReserva(@RequestParam("idReserva") Long id) {
 	    ModelAndView modelAndView = new ModelAndView("redirect:/reservas?deleteSuccess");
 	    reservaRepository.deleteById(id);
 	    return modelAndView;

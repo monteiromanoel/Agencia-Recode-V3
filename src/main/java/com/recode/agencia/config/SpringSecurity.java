@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,20 +37,25 @@ public class SpringSecurity {
 						.requestMatchers("/register/**").permitAll()
 						.requestMatchers("*/static/**").permitAll()
 						.requestMatchers("/css/**").permitAll()
+						.requestMatchers("/viagens/**").permitAll()
 						.requestMatchers("/js/**").permitAll()
-						.requestMatchers("/clientes/**").permitAll()
 						.requestMatchers("/image/**").permitAll()
 						.requestMatchers("/destinos/**").permitAll()
 						.requestMatchers("/promocoes/**").permitAll()
 						.requestMatchers("/contato").permitAll()
 						.requestMatchers("/pesquisa/**").permitAll()
-						.requestMatchers("/detalheDestino").permitAll()
+						.requestMatchers("/detalheDestino/**").permitAll()
 						.requestMatchers("/detalhePromocao").permitAll()
-						.requestMatchers("/perfil/**").permitAll()		
+						.requestMatchers("/confirmaReserva/**").permitAll()
+						.requestMatchers("/reservasCliente").permitAll()
+						.requestMatchers("/detalheReservaCliente/**").permitAll()
+						.requestMatchers("/deletarReservaCliente/**").permitAll()
+						.requestMatchers("/cliente/**").permitAll()
+						.requestMatchers("/perfil/**").permitAll()
 						.requestMatchers("/adm").hasRole(admin)
 							.requestMatchers("/users").hasRole(admin)
 								.requestMatchers("/detalheCliente").hasRole(admin)
-								.requestMatchers("/deletarCliente/**").hasRole(admin)
+								.requestMatchers("/deletarCliente").hasRole(admin)
 								.requestMatchers("/editarCliente/**").hasRole(admin)
 								.requestMatchers("/registeradm/**").hasRole(admin)
 								.requestMatchers("/editarCliente/**").hasRole(admin)
@@ -80,4 +87,7 @@ public class SpringSecurity {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
+	
+	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	
 }

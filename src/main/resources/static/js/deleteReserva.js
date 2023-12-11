@@ -1,6 +1,6 @@
-function confirmarDeletar(id) {
-    let confirmacao = confirm("Tem certeza que deseja cancelar esta reserva?");
+function confirmarDeletar(idReserva) {
+    var confirmacao = confirm("Tem certeza que deseja cancelar esta reserva?");
     if (confirmacao) {
-        window.location.href = '/deletarReserva?id=' + id;
+        window.location.href = 'deletarReserva?idReserva=' + idReserva;
     }
 }

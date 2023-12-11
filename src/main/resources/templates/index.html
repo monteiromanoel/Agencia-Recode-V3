@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" data-bs-theme="light">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" data-bs-theme="light">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,14 +15,13 @@
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="./css/style.css">
 
-	<link rel="shortcut icon" href="/image/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
 
 </head>
 
 <body>
-
 	<!-- Menu Principal-->
 	<header class="container">
 		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" id="menu">
@@ -60,11 +59,11 @@
 							<a th:href="@{/login}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
 						</li>
 						<li sec:authorize="isAuthenticated()" class="nav-item active">
-						    <a th:href="@{'/perfil/' + ${#authentication.principal.username}}" class="nav-link">
+						    <a th:href="@{/perfil}" class="nav-link">
 						        <i class="fas fa-user"></i> Perfil
 						    </a>
 						</li>
-						<li sec:authorize="isAuthenticated()" class="nav-item"><a href="/Agencia-Viagem-V2/Reservas" class="nav-link"><i
+						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/reservasCliente}" class="nav-link"><i
 									class="fas fa-book"></i> Reservas</a></li>
 						<li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{/logout}" class="nav-link"><i
 									class="fas fa-sign-out-alt"></i> Sair</a></li>
@@ -80,7 +79,6 @@
 		<section
 			class="container-fluid bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white imagemPrincipal">
 			<h1 class="mb-3 my-5 h2">Encontre sua viagem dos sonhos!</h1>
-			<div sec:authorize="isAuthenticated()"><span sec:authentication="name" name="emailUser"></span></div>
 			<form action="/pesquisa" method="post">
 				<div class="input-group row">
 					<div class="form-group mb-3">
@@ -99,14 +97,14 @@
 		<!-- Sessão de Avisos -->
 		<section class="container">
 			<div class="row ml-5 mr-5 mx-auto" id="conteudoAvisos">
-				<a class="col btn m-3 p-2 border rounded shadow aviso" href="Promocoes">
+				<a class="col btn m-3 p-2 border rounded shadow aviso" th:href="@{/promocoes}">
 					<i class="fas fa-tags fs-2"></i>
 					<h5 class="text-white fs-4">Promoções</h5>
 					<p>
 						Promoções exclusivas
 					</p>
 				</a>
-				<a class="col btn m-3 border rounded p-2 shadow aviso" href="Destinos">
+				<a class="col btn m-3 border rounded p-2 shadow aviso" th:href="@{/destinos}">
 					<i class="fas fa-umbrella-beach fs-2"></i>
 					<h5 class="text-white fs-4">Melhores Localizações</h5>
 					<p>
@@ -130,7 +128,9 @@
 				</a>
 			</div>
 		</section>
+		
 
+		
 		<div id="carouselExampleCaptions" class="container-sm carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
 				<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
@@ -213,7 +213,7 @@
 					<p><a href="#" class="linksFooter fw-semibold">Sobre nós</a></p>
 					<p><a href="#" class="linksFooter fw-semibold">Política de Privacidade</a></p>
 					<p><a href="#" class="linksFooter fw-semibold">Termos e Condições</a></p>
-					<p><a href="#" class="linksFooter fw-semibold">Entre em Contato</a></p>
+					<p><a th:href="@{/contato}" class="linksFooter fw-semibold">Entre em Contato</a></p>
 				</div>
 
 				<div class="col mb-4">

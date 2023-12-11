@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.recode.agencia.entity.Cliente;
 import com.recode.agencia.repository.ClienteRepository;
@@ -40,5 +41,12 @@ public class ClienteService {
 	public Cliente findByEmail(String email) {
 		return clienteRepository.findByEmail(email);
 	}
+	
+	@Transactional
+    public void excluirCliente(Long clientId) {
+        clienteRepository.deleteUserRolesByUserId(clientId);
+        clienteRepository.deleteReservasByUserId(clientId);
+        clienteRepository.deleteById(clientId);
+    }
 	
 }
