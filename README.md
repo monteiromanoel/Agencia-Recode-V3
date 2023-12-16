@@ -10,7 +10,7 @@
   </br>
   
 ### Back-End
-- Jav Spring
+- Java Spring
 - Autenticação e Autorização com Spring Security
 - Banco de Dados MySql
 
