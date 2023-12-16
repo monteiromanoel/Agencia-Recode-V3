@@ -1,5 +1,5 @@
 # Projeto Agência de Viagem V3
-<p>Versão 3 do projeto de Agência de Viagens, utilizando o padrão MVC e as seguintes ferramentas: </p> </br>
+<p>Versão 3 do projeto de Agência de Viagens, utilizando o padrão MVC e as seguintes ferramentas: </p>
 
 ### Estruturação e Estilização
 - HTML5
